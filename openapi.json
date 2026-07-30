@@ -11,146 +11,154 @@
         }
     ],
     "paths": {
-        "/tasks": {
-            "get": {
-                "summary": "Gets all tasks",
-                "description": "Returns all available tasks",
-                "responses": {
-                    "200": {
-                        "description": "Tasks retrieved successfully"
-                    }
-                }
-            }
+
+  "/tasks": {
+
+    "get": {
+      "summary": "Gets all tasks",
+      "description": "Returns all available tasks",
+      "responses": {
+        "200": {
+          "description": "Tasks retrieved successfully"
         }
+      }
     },
-    "/tasks/{id}": {
-  "get": {
-    "summary": "Get a task by ID",
-    "description": "Returns a single task using its ID",
 
-    "parameters": [
-      {
-        "name": "id",
-        "in": "path",
+    "post": {
+      "summary": "Create a new task",
+      "description": "Creates a task with a title",
+
+      "requestBody": {
         "required": true,
-        "schema": {
-          "type": "integer"
-        }
-      }
-    ],
-
-    "responses": {
-      "200": {
-        "description": "Task found"
-      },
-      "404": {
-        "description": "Task not found"
-      }
-    }
-  }
-},
-"/tasks": {
-
-  "post": {
-    "summary": "Create a new task",
-    "description": "Creates a task with a title",
-
-    "requestBody": {
-      "required": true,
-      "content": {
-        "application/json": {
-          "schema": {
-            "type": "object",
-            "properties": {
-              "title": {
-                "type": "string",
-                "example": "Learn Swagger"
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "example": "Learn Swagger"
+                }
               }
             }
           }
         }
-      }
-    },
-
-    "responses": {
-      "201": {
-        "description": "Task created successfully"
       },
-      "400": {
-        "description": "Title is required"
-      }
-    }
-  }
 
-},
-
-"put": {
-  "summary": "Update a task",
-  "description": "Updates task title or completion status",
-
-  "parameters": [
-    {
-      "name": "id",
-      "in": "path",
-      "required": true,
-      "schema": {
-        "type": "integer"
-      }
-    }
-  ],
-
-  "requestBody": {
-    "content": {
-      "application/json": {
-        "schema": {
-          "type": "object",
-          "properties": {
-            "title": {
-              "type": "string"
-            },
-            "done": {
-              "type": "boolean"
-            }
-          }
+      "responses": {
+        "201": {
+          "description": "Task created successfully"
+        },
+        "400": {
+          "description": "Title is required"
         }
       }
     }
+
   },
 
-  "responses": {
-    "200": {
-      "description": "Task updated"
-    },
-    "400": {
-      "description": "Invalid update data"
-    },
-    "404": {
-      "description": "Task not found"
-    }
-  }
-},
-"delete": {
-  "summary": "Delete a task",
-  "description": "Removes a task from the list",
 
-  "parameters": [
-    {
-      "name": "id",
-      "in": "path",
-      "required": true,
-      "schema": {
-        "type": "integer"
+  "/tasks/{id}": {
+
+    "get": {
+      "summary": "Get a task by ID",
+      "description": "Returns a single task using its ID",
+
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+
+      "responses": {
+        "200": {
+          "description": "Task found"
+        },
+        "404": {
+          "description": "Task not found"
+        }
+      }
+    },
+
+
+    "put": {
+      "summary": "Update a task",
+      "description": "Updates task title or completion status",
+
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "done": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "responses": {
+        "200": {
+          "description": "Task updated"
+        },
+        "400": {
+          "description": "Invalid update data"
+        },
+        "404": {
+          "description": "Task not found"
+        }
+      }
+    },
+
+
+    "delete": {
+      "summary": "Delete a task",
+      "description": "Removes a task from the list",
+
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+
+      "responses": {
+        "204": {
+          "description": "Task deleted successfully"
+        },
+        "404": {
+          "description": "Task not found"
+        }
       }
     }
-  ],
 
-  "responses": {
-    "204": {
-      "description": "Task deleted successfully"
-    },
-    "404": {
-      "description": "Task not found"
-    }
   }
+
 }
 }
