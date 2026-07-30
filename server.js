@@ -1,8 +1,13 @@
 const express = require("express");
-const app = express();
+const swaggerUi = require("swagger-ui-express")
+const swaggerDocument = require("./openapi.json")
 
-const PORT = 3000;
+
+const app = express();
 app.use(express.json());
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+
+
 
 
 const tasks = [
@@ -44,7 +49,7 @@ app.get("/tasks", (req, res) => {
 app.get("/tasks/:id", (req, res) => {
     const id = Number(req.params.id)
     const task = tasks.find((task) => {
-        task.id === id
+        return task.id === id
     });
     if(!task){
         return res.status(404).json({
@@ -75,28 +80,35 @@ app.post("/tasks", (req, res) => {
     res.status(201).json(newTask);
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on port: ${PORT}`);
-});
+
 
 app.put("/tasks/:id", (req, res) => {
-    const {title, done} = req.body
-    const id = Number(req.params.id)
-    const task = tasks.find((task) => {
-        task.id === id
-    });
+    const { title, done } = req.body;
+    const id = Number(req.params.id);
+
+    const task = tasks.find(task => task.id === id);
+
     if(!task){
         return res.status(404).json({
-            message: `Task of task id:${id} is not found`
-        })
-    }
-    if(!title || done === undefined){
-        return res.status(400).json({
-            message: "Provide title or done to update the task"
-        })
+            message: `Task with id ${id} is not found`
+        });
     }
 
-    res.status(200).json(task)
+    if(title === undefined && done === undefined){
+        return res.status(400).json({
+            message: "Provide title or done to update the task"
+        });
+    }
+
+    if(title !== undefined){
+        task.title = title;
+    }
+
+    if(done !== undefined){
+        task.done = done;
+    }
+
+    res.status(200).json(task);
 });
 
 app.delete("/tasks/:id", (req, res) => {
@@ -108,8 +120,14 @@ app.delete("/tasks/:id", (req, res) => {
         });
     }
     
-    const index = task.findIndex(task => task.id === id)
+    const index = tasks.findIndex(task => task.id === id)
     tasks.splice(index, 1)
 
     res.status(200).send()
-})
+});
+
+const PORT = 3000;
+
+app.listen(PORT, () => {
+    console.log(`Server running on port: ${PORT}`);
+});
