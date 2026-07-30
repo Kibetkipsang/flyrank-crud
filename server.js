@@ -112,18 +112,26 @@ app.put("/tasks/:id", (req, res) => {
 });
 
 app.delete("/tasks/:id", (req, res) => {
-    const id = Number(req.params.id)
-    const task = tasks.find(task => task.id === id)
+    const id = Number(req.params.id);
+
+    console.log("ID from URL:", id);
+    console.log("Tasks:", tasks);
+
+    const task = tasks.find(task => task.id === id);
+
+    console.log("Found task:", task);
+
     if(!task){
         return res.status(404).json({
             message: "Task not found"
         });
     }
-    
-    const index = tasks.findIndex(task => task.id === id)
-    tasks.splice(index, 1)
 
-    res.status(200).send()
+    const index = tasks.findIndex(task => task.id === id);
+
+    tasks.splice(index, 1);
+
+    res.status(204).send();
 });
 
 const PORT = 3000;
