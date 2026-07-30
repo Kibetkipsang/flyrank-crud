@@ -78,3 +78,38 @@ app.post("/tasks", (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running on port: ${PORT}`);
 });
+
+app.put("/tasks/:id", (req, res) => {
+    const {title, done} = req.body
+    const id = Number(req.params.id)
+    const task = tasks.find((task) => {
+        task.id === id
+    });
+    if(!task){
+        return res.status(404).json({
+            message: `Task of task id:${id} is not found`
+        })
+    }
+    if(!title || done === undefined){
+        return res.status(400).json({
+            message: "Provide title or done to update the task"
+        })
+    }
+
+    res.status(200).json(task)
+});
+
+app.delete("/tasks/:id", (req, res) => {
+    const id = Number(req.params.id)
+    const task = tasks.find(task => task.id === id)
+    if(!task){
+        return res.status(404).json({
+            message: "Task not found"
+        });
+    }
+    
+    const index = task.findIndex(task => task.id === id)
+    tasks.splice(index, 1)
+
+    res.status(200).send()
+})
