@@ -141,4 +141,4 @@ Add your screenshot below:
 
 ## Author
 
-Developed as part of a backend learning project on building REST APIs with Express.js and documenting them using Swagger UI.
+Developed by Dennis Kipsang as part of a backend learning project on building REST APIs with Express.js and documenting them using Swagger UI.
